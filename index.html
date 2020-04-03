@@ -20,18 +20,65 @@
     <div class="container">
         <!--header element containing Weather Dashboad title-->
         <div class="row">
-            <div class="two columns">
+            <div class="three columns">
                 <p></p>
             </div>
-            <div class="ten columns">
+            <div class="nine columns">
                 <h1>Weather Dashboard</h1>
             </div>
         </div>
         <div class="row">
+            <div class="three columns" id="citySearch">
+                <label for="city">City</label>
+                <input class="u-full-width" type="email" placeholder="Fake City, PA" id="city">
+                <input class="button-primary" type="submit" value="search" id="citySearchButton">
+            </div>
+            <div class="nine columns" id="currentCityInfo">
+                <h3 id="currentCityAndDate">Current City (Today's Date)</h3>
+            </div>
 
         </div>
-
+        <div class="row">
+            <div class="three columns" id="searchHistory">
+                <label for="searchHistory">Search History</label>
+                <input class="button" type="submit" value="Philadelphia">
+            </div>
+            <div class="nine columns" id="currentCityMetrics">
+                <p id="temperature"></p>
+                <p id="humidity"></p>
+                <p id="wind"></p>
+                <p id="uvIndex"></p>
+                <div class="row">
+                    <div class="one-fifth columns days" id="dayOne">
+                        <p id="dayOneDate"></p>
+                        <p id="dayOneTemp"></p>
+                        <p id="dayOneHumidity"></p>
+                    </div>
+                    <div class="one-fifth columns days" id="dayTwo">
+                        <p id="dayTwoDate"></p>
+                        <p id="dayTwoTemp"></p>
+                        <p id="dayTwoHumidity"></p>
+                    </div>
+                    <div class="one-fifth columns days" id="dayThree">
+                        <p id="dayThreeDate"></p>
+                        <p id="dayThreeTemp"></p>
+                        <p id="dayThreeHumidity"></p>
+                    </div>
+                    <div class="one-fifth columns days" id="dayFour">
+                        <p id="dayFourDate"></p>
+                        <p id="dayFourTemp"></p>
+                        <p id="dayFourHumidity"></p>
+                    </div>
+                    <div class="one-fifth columns days" id="dayFive">
+                        <p id="dayFiveDate"></p>
+                        <p id="dayFiveTemp"></p>
+                        <p id="dayFiveHumidity"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 
     <!--JS links for jQuery and weather dashboard script-->

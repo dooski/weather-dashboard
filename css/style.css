@@ -1,7 +1,9 @@
 .days {
     border: lightslategray solid 1px;
     padding: 2px;
-    border-radius: 3px
+    border-radius: 3px;
+    visibility: hidden;
+    background-color: lightblue;
 }
 
 #citySearch {
@@ -16,7 +18,7 @@
 
 #currentCityInfo {
     border-bottom: lightslategray solid 1px;
-    padding-bottom: 80px;
+    padding-bottom: 10px;
 }
 
 #currentCityMetrics {
@@ -25,4 +27,9 @@
 
 .one-fifth {
     width: 15%;
+}
+
+.small {
+    width: 30px;
+    height: 30px;
 }

@@ -30,18 +30,19 @@
         <div class="row">
             <div class="three columns" id="citySearch">
                 <label for="city">City</label>
-                <input class="u-full-width" type="email" placeholder="Fake City, PA" id="city">
+                <input class="u-full-width" type="email" placeholder="Fake City, PA" id="citySearchTerm">
                 <input class="button-primary" type="submit" value="search" id="citySearchButton">
             </div>
             <div class="nine columns" id="currentCityInfo">
-                <h3 id="currentCityAndDate">Current City (Today's Date)</h3>
+                <h3 id="currentHeader"></h3>
             </div>
 
         </div>
         <div class="row">
-            <div class="three columns" id="searchHistory">
+            <div class="three columns">
                 <label for="searchHistory">Search History</label>
-                <input class="button" type="submit" value="Philadelphia">
+                <div id="searchHistory">
+                </div>
             </div>
             <div class="nine columns" id="currentCityMetrics">
                 <p id="temperature"></p>
@@ -81,8 +82,9 @@
 
 
 
-    <!--JS links for jQuery and weather dashboard script-->
+    <!--JS links for jQuery, moment.js and weather dashboard script-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="logic/logic.js"></script>
 </body>
 

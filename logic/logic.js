@@ -1,48 +1,103 @@
 console.log("we good")
 
-//Current forecast
-var currentTemp = "67"
-var currentHumidity = "45%"
-var currentWind = "12 mph"
-var currentUV = "4.5"
+//Current forecast variables
+var currentHeader = $("#currentHeader")
+var currentTemp = $("#temperature")
+var currentHumidity = $("#humidity")
+var currentWind = $("#wind")
+var currentUV = $("#uvIndex")
 
-$("#temperature").text("Temperature: " + currentTemp);
-$("#humidity").text("Humidity: " + currentHumidity);
-$("#wind").text("Wind: " + currentWind);
-$("#uvIndex").text("UV Index: " + currentUV);
+//Five-Day forecast variables
+//day one
+var d1Date = $("#dayOneDate")
+var d1Temp = $("#dayOneTemp")
+var d1Humidity = $("#dayOneHumidity")
 
-//Five-Day forecast
-var d1Date = "8/26/2020";
-var d1Temp = "64";
-var d1Humidity = "32%";
-$("#dayOneDate").text(d1Date);
-$("#dayOneTemp").text("Temp: " + d1Temp);
-$("#dayOneHumidity").text("Humidity: " + d1Humidity);
+//day two
+var d2Date = $("#dayTwoDate")
+var d2Temp = $("#dayTwoTemp")
+var d2Humidity = $("#dayTwoHumidity")
 
-var d2Date = "8/27/2020";
-var d2Temp = "52";
-var d2Humidity = "30%";
-$("#dayTwoDate").text(d2Date);
-$("#dayTwoTemp").text("Temp: " + d2Temp);
-$("#dayTwoHumidity").text("Humidity: " + d2Humidity);
+//day three
+var d3Date = $("#dayThreeDate")
+var d3Temp = $("#dayThreeTemp")
+var d3Humidity = $("#dayThreeHumidity")
 
-var d3Date = "8/28/2020";
-var d3Temp = "64";
-var d3Humidity = "33%";
-$("#dayThreeDate").text(d3Date);
-$("#dayThreeTemp").text("Temp: " + d3Temp);
-$("#dayThreeHumidity").text("Humidity: " + d3Humidity);
+//day four
+var d4Date = $("#dayFourDate")
+var d4Temp = $("#dayFourTemp")
+var d4Humidity = $("#dayFourHumidity")
 
-var d4Date = "8/29/2020";
-var d4Temp = "63";
-var d4Humidity = "21%";
-$("#dayFourDate").text(d4Date);
-$("#dayFourTemp").text("Temp: " + d4Temp);
-$("#dayFourHumidity").text("Humidity: " + d4Humidity);
 
-var d5Date = "8/30/2020";
-var d5Temp = "69";
-var d5Humidity = "30%";
-$("#dayFiveDate").text(d5Date);
-$("#dayFiveTemp").text("Temp: " + d5Temp);
-$("#dayFiveHumidity").text("Humidity: " + d5Humidity);
+//day five
+var d5Date = $("#dayFiveDate")
+var d5Temp = $("#dayFiveTemp")
+var d5Humidity = $("#dayFiveHumidity")
+
+//saves last city searched to local storage
+var lastCitySearch = localStorage.getItem("citySearch")
+//pulls up last city searched from local storage upon page load
+if (lastCitySearch !== null) {
+    buildQuery()
+}
+
+//sends out query for today's weather and updates HTML elements
+// function queryWeather() {
+//     $.ajax({
+//         url: queryURL,
+//         method: "GET"
+//     }).then(function (response) {
+//         console.log(response)
+//         var todaysDate = moment().format("MMM Do YY");
+//         var currentCity = response.name;
+//         currentHeader.text(currentCity + " (" + todaysDate + ")")
+//         currentTemp.text("Today's Temperature: " + response.main.temp + "\xB0")
+//         currentHumidity.text("Today's Humidity: " + response.main.humidity + "%")
+//         currentWind.text("Today's Wind Speed: " + response.wind.speed + " mph")
+//     })
+// }
+//assembles queryURL for AJAX calls
+function buildQuery() {
+    var queryURLstart = "https://api.openweathermap.org/data/2.5/weather?";
+    var queryParams = { "appid": "09bbdc4243d49ba72f9cfcde4484f728" };
+    // takes city search name from local storage
+    queryParams.q = localStorage.getItem("citySearch")
+    queryURL = queryURLstart + $.param(queryParams) + "&units=imperial";
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response)
+        var todaysDate = moment().format("MMM Do YY");
+        var currentCity = response.name;
+        currentHeader.text(currentCity + " (" + todaysDate + ")")
+        currentTemp.text("Today's Temperature: " + response.main.temp + "\xB0")
+        currentHumidity.text("Today's Humidity: " + response.main.humidity + "%")
+        currentWind.text("Today's Wind Speed: " + response.wind.speed + " mph")
+    })
+}
+
+//function for building search term history
+function buildHistory() {
+    $("#searchHistory").prepend('<input class="button search" type="submit" value=' + citySearch + ' id="' + citySearch + '">')
+    $("#" + citySearch).on("click", function () {
+        citySearch = this.value
+        var id = "citySearch"
+        var value = citySearch
+        localStorage.setItem(id, value);
+        buildQuery()
+    }
+    )
+}
+
+
+//button click for new city searches
+$("#citySearchButton").on("click", function () {
+    //puts new search in local storage
+    citySearch = $("#citySearchTerm").val()
+    var id = "citySearch"
+    var value = citySearch
+    localStorage.setItem(id, value);
+    buildQuery();
+    buildHistory();
+})

@@ -1,5 +1,5 @@
-console.log("we good")
 
+//variables
 //Current forecast variables
 var currentHeader = $("#currentHeader")
 var currentTemp = $("#temperature")
@@ -41,13 +41,31 @@ var d5Icon = $("#dayFiveIcon")
 
 //retrieves last city searched from local storage
 var lastCitySearch = localStorage.getItem("citySearch")
+
+//
+//
+// if statements and on-click listeners
+
 //makes ajax calls for last city searched
 if (lastCitySearch !== null) {
     buildQuery()
 }
 
+//button click for new city searches
+$("#citySearchButton").on("click", function () {
+    //puts new search in local storage
+    citySearch = $("#citySearchTerm").val()
+    var id = "citySearch"
+    var value = citySearch
+    localStorage.setItem(id, value);
+    buildQuery();
+    buildHistory();
+})
 
-//assembles queryURL and makes AJAX calls
+//
+//
+//functions
+//function for assembling, making and processing ajax calls
 function buildQuery() {
     var queryURLstart = "https://api.openweathermap.org/data/2.5/weather?";
     var queryParams = { "appid": "09bbdc4243d49ba72f9cfcde4484f728" };
@@ -66,10 +84,18 @@ function buildQuery() {
         currentHumidity.text("Today's Humidity: " + response.main.humidity + "%")
         currentWind.text("Today's Wind Speed: " + response.wind.speed + " mph")
         currentIcon.attr("src", "http://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png")
+        cityLat = response.coord.lat
+        var id = "cityLat"
+        var value = cityLat
+        localStorage.setItem(id, value);
+        cityLon = response.coord.lon
+        var id = "cityLon"
+        var value = cityLon
+        localStorage.setItem(id, value)
     })
+    //ajax call for five-day forecast
     var queryURLstart2 = "https://api.openweathermap.org/data/2.5/forecast?";
     var queryParams2 = { "appid": "09bbdc4243d49ba72f9cfcde4484f728" };
-    // takes city search name from local storage
     queryParams2.q = localStorage.getItem("citySearch")
     queryURL2 = queryURLstart2 + $.param(queryParams2) + "&units=imperial";
     $.ajax({
@@ -77,27 +103,41 @@ function buildQuery() {
         method: "GET"
     }).then(function (response) {
         console.log(response)
+        //shows the five-day forecast boxes in html; list value changes in increments of eight for three hour changes
         $(".days").css("visibility", "visible")
         d1Date.text(moment().add(1, 'days').format("MMM Do"))
         d1Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[0].weather[0].icon + "@2x.png")
         d1Temp.text("Temp: " + response.list[0].main.temp + "\xB0")
         d1Humidity.text("Humidity: " + response.list[0].main.humidity + "%")
         d2Date.text(moment().add(2, 'days').format("MMM Do"))
-        d2Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[3].weather[0].icon + "@2x.png")
-        d2Temp.text("Temp: " + response.list[3].main.temp + "\xB0")
-        d2Humidity.text("Humidity: " + response.list[3].main.humidity + "%")
+        d2Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[7].weather[0].icon + "@2x.png")
+        d2Temp.text("Temp: " + response.list[7].main.temp + "\xB0")
+        d2Humidity.text("Humidity: " + response.list[7].main.humidity + "%")
         d3Date.text(moment().add(3, 'days').format("MMM Do"))
-        d3Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[7].weather[0].icon + "@2x.png")
-        d3Temp.text("Temp: " + response.list[7].main.temp + "\xB0")
-        d3Humidity.text("Humidity: " + response.list[7].main.humidity + "%")
+        d3Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[15].weather[0].icon + "@2x.png")
+        d3Temp.text("Temp: " + response.list[15].main.temp + "\xB0")
+        d3Humidity.text("Humidity: " + response.list[15].main.humidity + "%")
         d4Date.text(moment().add(4, 'days').format("MMM Do"))
-        d4Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[11].weather[0].icon + "@2x.png")
-        d4Temp.text("Temp: " + response.list[11].main.temp + "\xB0")
-        d4Humidity.text("Humidity: " + response.list[11].main.humidity + "%")
+        d4Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[23].weather[0].icon + "@2x.png")
+        d4Temp.text("Temp: " + response.list[23].main.temp + "\xB0")
+        d4Humidity.text("Humidity: " + response.list[23].main.humidity + "%")
         d5Date.text(moment().add(5, 'days').format("MMM Do"))
-        d5Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[15].weather[0].icon + "@2x.png")
-        d5Temp.text("Temp: " + response.list[15].main.temp + "\xB0")
-        d5Humidity.text("Humidity: " + response.list[15].main.humidity + "%")
+        d5Icon.attr("src", "http://openweathermap.org/img/wn/" + response.list[31].weather[0].icon + "@2x.png")
+        d5Temp.text("Temp: " + response.list[31].main.temp + "\xB0")
+        d5Humidity.text("Humidity: " + response.list[31].main.humidity + "%")
+    })
+    //ajax call for uv index
+    var queryURLstart3 = "https://api.openweathermap.org/data/2.5/uvi?";
+    var queryParams3 = { "appid": "09bbdc4243d49ba72f9cfcde4484f728" };
+    queryParams3.lat = localStorage.getItem("cityLat")
+    queryParams3.lon = localStorage.getItem("cityLon")
+    queryURL3 = queryURLstart3 + $.param(queryParams3);
+    $.ajax({
+        url: queryURL3,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response)
+        currentUV.html('UV Index: <b>' + response.value + '</b>')
     })
 }
 
@@ -114,13 +154,4 @@ function buildHistory() {
     )
 }
 
-//button click for new city searches
-$("#citySearchButton").on("click", function () {
-    //puts new search in local storage
-    citySearch = $("#citySearchTerm").val()
-    var id = "citySearch"
-    var value = citySearch
-    localStorage.setItem(id, value);
-    buildQuery();
-    buildHistory();
-})
+

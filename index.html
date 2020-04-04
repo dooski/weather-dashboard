@@ -27,25 +27,29 @@
                 <h1>Weather Dashboard</h1>
             </div>
         </div>
+        <!--main body, first row-->
+        <!--search bar-->
         <div class="row">
             <div class="three columns" id="citySearch">
                 <label for="city">City</label>
                 <input class="u-full-width" type="email" placeholder="Fake City, PA" id="citySearchTerm">
                 <input class="button-primary" type="submit" value="search" id="citySearchButton">
-
             </div>
+            <!--current city information, including city name, current date, and an icon for current weather conditions-->
             <div class="nine columns" id="currentCityInfo">
                 <h3 id="currentHeader"></h3>
                 <img id="currentIcon" src="">
             </div>
-
         </div>
+        <!--main body, second row-->
+        <!--search history; generates buttons for each previous search term-->
         <div class="row">
             <div class="three columns">
                 <label for="searchHistory">Search History</label>
                 <div id="searchHistory">
                 </div>
             </div>
+            <!--city metrics; this includes the current temp, humidity, wind and uv index information as well as a five-day forecast-->
             <div class="nine columns" id="currentCityMetrics">
                 <p id="temperature"></p>
                 <p id="humidity"></p>
